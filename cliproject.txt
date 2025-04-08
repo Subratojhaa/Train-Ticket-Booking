@@ -1,0 +1,527 @@
+package ticket.booking.entities;
+
+
+
+public class Ticket {
+    private String ticketId;
+    private String userId;
+    private String source;
+    private String destination;
+    private String dateOfTravel;
+    private Train train;
+
+    public Ticket(){
+
+    }
+
+    
+    public Ticket(String ticketId, String userId, String source, String destination, String dateOfTravel, Train train) {
+        this.ticketId = ticketId;
+        this.userId = userId;
+        this.source = source;
+        this.destination = destination;
+        this.dateOfTravel = dateOfTravel;
+        this.train = train;
+    }
+
+    
+    public String getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(String ticketId) {
+        this.ticketId = ticketId;
+    }
+
+    
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    
+    public String getDateOfTravel() {
+        return dateOfTravel;
+    }
+
+    public void setDateOfTravel(String dateOfTravel) {
+        this.dateOfTravel = dateOfTravel;
+    }
+
+    
+    public Train getTrain() {
+        return train;
+    }
+
+    public void setTrain(Train train) {
+        this.train = train;
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "ticketId='" + ticketId + '\'' +
+                ", userId='" + userId + '\'' +
+                ", source='" + source + '\'' +
+                ", destination='" + destination + '\'' +
+                ", dateOfTravel='" + dateOfTravel + '\'' +
+                ", train=" + train +
+                '}';
+    }
+}
+
+
+package ticket.booking.entities;
+
+import java.util.List;
+import java.util.Map;
+
+public class Train {
+
+    private String trainId;
+    private String trainNo;
+    private List<List<Integer>> seats;
+    private Map<String, String> stationTimes;
+    private List<String> stations;
+
+    public Train() {}
+    
+    public Train(String trainId, String trainNo, List<List<Integer>> seats, Map<String, String> stationTimes, List<String> stations) {
+        this.trainId = trainId;
+        this.trainNo = trainNo;
+        this.seats = seats;
+        this.stationTimes = stationTimes;
+        this.stations = stations;
+    }
+
+    
+    public String getTrainId() {
+        return trainId;
+    }
+
+    public void setTrainId(String trainId) {
+        this.trainId = trainId;
+    }
+
+    
+    public String getTrainNo() {
+        return trainNo;
+    }
+
+    public void setTrainNo(String trainNo) {
+        this.trainNo = trainNo;
+    }
+
+    
+    public List<List<Integer>> getSeats() {
+        return seats;
+    }
+
+    public void setSeats(List<List<Integer>> seats) {
+        this.seats = seats;
+    }
+
+    
+    public Map<String, String> getStationTimes() {
+        return stationTimes;
+    }
+
+    public void setStationTimes(Map<String, String> stationTimes) {
+        this.stationTimes = stationTimes;
+    }
+
+    
+    public List<String> getStations() {
+        return stations;
+    }
+
+    public void setStations(List<String> stations) {
+        this.stations = stations;
+    }
+
+    @Override
+    public String toString() {
+        return "Train{" +
+                "trainId='" + trainId + '\'' +
+                ", trainNo='" + trainNo + '\'' +
+                ", seats=" + seats +
+                ", stationTimes=" + stationTimes +
+                ", stations=" + stations +
+                '}';
+    }
+}
+
+package ticket.booking.entities;
+
+import java.util.List;
+
+public class User {
+    private String name;
+    private String password;
+    // private String hashedPassword; 
+    private List<Ticket> ticketsBooked;
+    private String userId;
+
+  
+    public User(String name, String password, List<Ticket> ticketsBooked, String userId) {
+        this.name = name;
+        this.password = password;
+        this.ticketsBooked = ticketsBooked;
+        this.userId = userId;
+    }
+    
+    public void printTickes() {
+    	ticketsBooked.stream().forEach(System.out::println);
+    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    public String getPassword() {
+        return password;
+    }
+
+    public List<Ticket> getTicketsBooked() {
+        return ticketsBooked;
+    }
+
+    public void setTicketsBooked(List<Ticket> ticketsBooked) {
+        this.ticketsBooked = ticketsBooked;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", ticketsBooked=" + ticketsBooked +
+                ", userId='" + userId + '\'' +
+                '}';
+    }
+}
+package ticket.booking.main;
+
+import java.util.Scanner;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.*;
+import ticket.booking.services.*;
+import ticket.booking.entities.*;
+
+public class Main{
+//signup
+//login
+//fetch booking
+//search trains
+//book a seat
+//cancel my booking
+//exit the app
+
+
+  public static void main(String[] args){
+
+    UserBookingService userBookingService=new UserBookingService();
+    User myUser=null;
+    
+    Map<String, String> stationTimes = new HashMap<>();
+    stationTimes.put("Bhubaneswar", "10:20");
+    stationTimes.put("Rourkela", "11:30");
+    stationTimes.put("Bhadrak", "12:40");
+    stationTimes.put("Mumbai", "15:45"); 
+    Train train1 = new Train(
+            "T001","12345",Arrays.asList(Arrays.asList(0, 1, 0, 1, 0),Arrays.asList(0, 0, 1, 0, 1))
+            ,stationTimes,Arrays.asList("bhubaneswar", "rourkela", "bhadrak"));
+
+    Train train2 = new Train(
+            "T002","67891",Arrays.asList(Arrays.asList(0, 1, 0, 1, 1),Arrays.asList(1, 0, 1, 0, 1))
+            ,stationTimes,Arrays.asList("bhadrak", "balasore", "kolkata"));
+   
+    Train train3 = new Train(
+            "T002","67891",Arrays.asList(Arrays.asList(1, 0, 0, 1, 1),Arrays.asList(1, 0, 0, 0, 0))
+            ,stationTimes,Arrays.asList("sambalpur", "jharsuguda", "koraput"));
+    
+    TrainService trainService=new TrainService(Arrays.asList(train1,train2,train3));
+    Train selectedTrain=new Train();
+   
+      loop:while(true){
+        System.out.println("1.SignUp");
+        System.out.println("2.Login");
+        System.out.println("3.Fetch Booking");
+        System.out.println("4.Search Trains");
+        System.out.println("5.Book a seat");
+        System.out.println("6.Cancel My Booking");
+        System.out.println("7.Exit");
+       
+        Scanner sc=new Scanner(System.in);
+        int option=sc.nextInt();
+        switch (option) {
+        case 1: 
+        	//signup
+            System.out.println("Enter UserName to signup");
+            String userName=sc.next();
+            System.out.println("Enter Password to signup");
+            String userPassword=sc.next();
+        
+            User userToSignUp=new User(userName,userPassword,new ArrayList<>(),UUID.randomUUID().toString());
+            boolean res=userBookingService.signUp(userToSignUp);
+            System.out.println(res==true?"Signup Successfully":"SignUp Failed");
+            break;
+         case 2:
+        	 //login
+           System.out.println("Enter UserName:");
+           String name=sc.next();
+           System.out.println("Enter Password:");
+           String password=sc.next();
+           
+           User res1= userBookingService.login(name, password);
+          System.out.println(res1!=null?"Login Successfully":"User Not Found Please signup");
+           myUser=res1; 
+            break;
+         case 3:
+        	 //FetchBooking
+        	 //System.out.println("Current user is: "+myUser.getName());
+        	 System.out.println(userBookingService.fetchBooking(myUser));
+        	 
+            break;
+         case 4:
+        	 //Search Trains
+        	 System.out.println("Enter Source:");
+        	 String source=sc.next();
+        	 System.out.println("Enter Destination:");
+        	 String destination=sc.next();
+        	 List<Train> listOfTrains=trainService.searchTrain(source, destination);
+        	 listOfTrains.forEach(System.out::println);
+        	 System.out.println();
+        	 System.out.println("Select a train by tapping 1,2,3...");
+        	 int choose=sc.nextInt();
+        	 selectedTrain=listOfTrains.get(choose-1);
+        	 
+            break;
+         case 5:
+        	
+        	 
+        	 System.out.println("Enter Source:");
+        	 String source1=sc.next();
+        	 System.out.println("Enter Destination:");
+        	 String destination1=sc.next();
+        	 System.out.println("Enter dateOfTravel");
+        	 String dateOfTravel1=sc.next();
+        	 List<Train> listOfTrains1=trainService.searchTrain(source1, destination1);
+        	 listOfTrains1.forEach(System.out::println);
+        	 System.out.println();
+        	 System.out.println("Select a train by tapping 1,2,3...");
+        	 int choose1=sc.nextInt();
+        	 selectedTrain=listOfTrains1.get(choose1-1);
+        	 
+        	 //Book seat
+        	 System.out.println("Select a seat out of this seats");
+        	 List<List<Integer>> listOfSeats=selectedTrain.getSeats();
+        	 //listOfSeats.stream().flatMap(List::stream);
+        	 
+        	 for(List<Integer> row:listOfSeats) {
+        		 for(int val:row) {
+        			 System.out.print(val+" ");
+        		 }
+        		 System.out.println();
+        	 }
+        	 
+        	 System.out.println("Enter the row");
+        	 int row=sc.nextInt();
+        	 System.out.println("Enter the column");
+        	 int column=sc.nextInt();
+        	 
+        	 if(myUser==null) {
+        		 System.out.println("Login first");
+        		 
+        	 }else{
+        		boolean booked= userBookingService.bookTicket(myUser,selectedTrain,row,column,source1,destination1,dateOfTravel1);
+        		System.out.println(booked==true?"Ticket Booked Succesfully":"Ticket Booking failed");
+        	 }
+            break;
+         case 6:
+            break;
+         case 7:
+         break loop;
+                            
+      }
+    }
+
+
+  }
+
+
+}package ticket.booking.services;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import ticket.booking.entities.Train;
+
+public class TrainService{
+
+    //operations
+    //search train
+    //addtrain
+    //updatetrain
+    //savetrainlist to file
+    //valid train
+	private List<Train> trainList;
+	
+	public TrainService() {}
+	public TrainService(List<Train> trainList) {
+		this.trainList=trainList;
+	}
+	
+	public List<Train> searchTrain(String source,String destination) {
+		return trainList.stream().filter(train->validTrain(train, source, destination)).collect(Collectors.toList());
+	}
+	
+	private boolean validTrain(Train train,String source,String destination) {
+		List<String> stationOrder=train.getStations();
+		int sourceIndex=stationOrder.indexOf(source.toLowerCase());
+		System.out.println(sourceIndex);
+		int destinationIndex=stationOrder.indexOf(destination.toLowerCase());
+		System.out.println(destinationIndex);
+		return sourceIndex!=-1 && destinationIndex!=-1 && sourceIndex<destinationIndex;
+	}
+    
+}package ticket.booking.services;
+
+import java.util.*;
+import ticket.booking.entities.*;
+
+public class UserBookingService{
+
+
+    //loginuser
+    //signup
+    //saveuserlist
+    //fetchbookings
+    //cancelbooking
+    //get trains
+    //booktrainseat
+    //userAlreadyAvailable
+    
+    private User checkUser;
+    private List<User> userList=new ArrayList<>();
+    
+    //Fetch seats
+//    public List<List<Integer>> fetchList(){
+//    	return  
+//    }
+    
+    
+
+    public UserBookingService(){}
+    public UserBookingService(User checkuser){
+        this.checkUser=checkuser;
+    }
+    //for signup
+    public boolean signUp(User user){
+        
+        userList.add(user);
+        return true;
+    }
+
+    //for login
+    public User login(String name,String password){
+          Optional<User> user1=  userList.stream().filter(user->{
+                if(user.getName().equals(name) && user.getPassword().equals(password)){
+                    return true;
+                }
+                return false;
+            }).findFirst();
+
+             if(user1.isPresent()) {
+            	 checkUser=user1.get();
+            	 return user1.get();
+             }else {
+            	 return null;
+             }
+
+
+       
+    }
+    
+    //FetchBooking
+    public String fetchBooking(User user) {
+    
+    	if(user==null)  return "Please Login";
+    	else user.printTickes();
+		return "You have no bookings ";
+    }
+
+    public List<User> getUserList(){
+        return userList;
+    }
+
+    //Search users
+    public List<Train> getTrain(String source,String destination) {
+    	TrainService trainService=new TrainService();
+    	return trainService.searchTrain(source, destination);
+    }
+    
+    //Book Ticket
+    public boolean bookTicket(User user,Train train,int row,int reqSeat,String source,String destination,String dateOfTravel) {
+    	TrainService trainService=new TrainService();
+    	List<List<Integer>> seats=train.getSeats();
+    	
+    	if ((row >= 0 && row < seats.size()) && (reqSeat >= 0 && reqSeat < seats.get(row).size())) {
+    	  if(seats.get(row).get(reqSeat)==0) {
+    		  seats.get(row).set(reqSeat, 1);
+    		  train.setSeats(seats);
+    		  Ticket ticket1=new Ticket("1",checkUser.getUserId(),source,destination,dateOfTravel,train);
+    		  checkUser.setTicketsBooked(Arrays.asList(ticket1));
+    		  return true;
+    	    }else {
+    		  System.out.println("Seat is already booked");
+    	    }
+    	}else {
+    		System.out.println("Invalid Column Selection");
+        }
+		return false;
+
+    	
+    	
+    }
+    
+    
+
+
+}
